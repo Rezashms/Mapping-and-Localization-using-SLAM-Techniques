@@ -1,6 +1,4 @@
-TEAM MEMBERS:
-10578631 - Lorenzo Castiglia
-10568661 - Davide Mantegazza
+10811768 - REZA SHAMS
 
 FILES DESCRIPTION:
 - odomTf: includes transformation broadcast from odom frame to base_footprint frame
