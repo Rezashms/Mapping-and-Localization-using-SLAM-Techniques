@@ -1,0 +1,51 @@
+<launch>
+ 
+  <!-- Name of the map to use and initial position -->
+  <arg name="map_file"       default="$(find project_2)/maps/map.yaml"/> 
+  <arg name="world_file"     default="$(find project_2)/maps/map.pgm"/>
+  <arg name="initial_pose_x" default="0.0"/>
+  <arg name="initial_pose_y" default="0.0"/>
+  <arg name="initial_pose_a" default="0.0"/>
+
+  <arg name="odom_frame_id"   default="odom"/>
+  <arg name="global_frame_id" default="map"/>
+
+  <param name="/use_sim_time" value="true"/>
+
+
+  <!--  ************** add odom tf  ***************  -->
+  <node pkg="project_2" type="odomTf" respawn="false" name="odomTf" output="screen"/>
+
+
+  <!--  ****** Maps *****  -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)">
+    <param name="frame_id" value="map"/>
+  </node>
+
+
+  <!-- **************  scan_merger **************  -->
+  <include file="$(find project_2)/launch/scan_merger.launch"/>
+
+
+  <!--  ****** amcl *****  -->
+  <include file="$(find nav2d_conf)/launch/amcl.launch.xml">
+    <arg name="scan_topic" value="scan_multi"/>
+    <arg name="use_map_topic" value="true"/>
+    <arg name="initial_pose_x" value="$(arg initial_pose_x)"/>
+    <arg name="initial_pose_y" value="$(arg initial_pose_y)"/>
+    <arg name="initial_pose_a" value="$(arg initial_pose_a)"/>
+  </include>
+
+
+  <!--  **************** Visualisation ****************  -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find project_2)/rviz/localization_config.rviz"/>
+
+  <!--  **************** trajectory_server ****************  -->
+  <node pkg="hector_trajectory_server" type="hector_trajectory_server" name="trajectory" output="screen">
+    <param name="target_frame_name"        value="map"/>
+    <param name="source_frame_name"        value="base_footprint"/>
+    <param name="trajectory_update_rate"   value="4.0"/>
+    <param name="trajectory_publish_rate"  value="0.25"/>
+  </node>
+  
+</launch>

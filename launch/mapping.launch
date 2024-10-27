@@ -1,0 +1,17 @@
+<launch>
+
+  <param name="/use_sim_time" value="true"/>
+
+  <!--  ************** add odom tf  ***************  -->
+  <node pkg="project_2" type="odomTf" respawn="false" name="odomTf" output="screen"/>
+
+  <!--  **************  Gmapping  **************  -->
+  <include file="$(find project_2)/launch/gmapping.launch.xml"/>
+
+  <!-- **************  scan_merger  **************  -->
+  <include file="$(find project_2)/launch/scan_merger.launch"/>
+
+  <!--  ****************  Visualisation  ****************  -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find project_2)/rviz/mapping_config.rviz"/>
+
+</launch>

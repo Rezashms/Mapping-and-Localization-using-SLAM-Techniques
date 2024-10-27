@@ -1,0 +1,24 @@
+TEAM MEMBERS:
+10578631 - Lorenzo Castiglia
+10568661 - Davide Mantegazza
+
+FILES DESCRIPTION:
+- odomTf: includes transformation broadcast from odom frame to base_footprint frame
+
+TF TREE STRUCTURE:
+map -> odom -> base_footprint 	-> laser_front
+				-> laser_rear
+
+BAGS USAGE:
+Map has been created with the second bag, while the localization process has been tested with the third and the first bag
+
+MAP CREATION:
+Map has been created without any custom node, but by using gmapping
+
+HOW TO START:
+- Mapping: start mapping.launch (package name project_2)
+- Localization: start localization.launch
+
+OTHER INFOS:
+- When both launch flies are launched, a RVIZ window is opened, in order to track the results; from here it is possible to save the view with the command File -> Save image (image saving service)
+- Parameters that influenced the most on map and localization quality: particles (gampping), laser alpha values (amcl)
